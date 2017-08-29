@@ -1,9 +1,9 @@
 const request = require('request');
 
-module.exports = function (context, myTimer) {
+module.exports = function (context, tickerTimer) {
     var timeStamp = new Date().toISOString();
     
-    if(myTimer.isPastDue)
+    if(tickerTimer.isPastDue)
     {
         context.log('JavaScript is running late!');
     }
@@ -13,6 +13,7 @@ module.exports = function (context, myTimer) {
         context.log('error:', error);
         context.log('statusCode:', response && response.statusCode);
         context.log('body:', body);
+        context.log(body[0])
     });
 
     context.done();
