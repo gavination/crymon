@@ -1,12 +1,11 @@
 const request = require('request')
-const twilio = require('twilio')
 
 // currencies to watch
 tracked = ['BTC', 'ETH', 'GNT', 'REP']
 
 // twilio
-var sid = "AC9f04edb7a7cd2353d8e043ea71b25209"
-var token = "f93a0b7981840eb759b1db58546e9801"
+const sid = "AC9f04edb7a7cd2353d8e043ea71b25209"
+const token = "f93a0b7981840eb759b1db58546e9801"
 
 module.exports = function (context) {
 
@@ -41,10 +40,10 @@ module.exports = function (context) {
         context.log('success.')
 
         if (notif.length > 0) {
-            context.log("we need to send some texts...")
-            //ping(notif)
+            context.log("sending texts...")
+            ping(notif)
         } else {
-            context.log("nothing to see here.")
+            context.log("no texts to send.")
         }
         
         context.log('indexing data...')
@@ -61,8 +60,23 @@ module.exports = function (context) {
 
     })
 
-}
+    function ping(notif) {
+        const client = require('twilio')(sid, token)
+        
+        var message = "Breaking news!\n"
+        for (var coin in notif) {
+            message += notif[coin].symbol
+            message += " "
+            message += notif[coin].delta + "\n"
+        }
 
-function ping(notif) {
-
+        client.messages.create({
+            to: "+19094511716",
+            from: "+15624185468",
+            body: message
+        }, function(err, msg) {
+            context.log(msg.sid)
+        })
+        context.log("done.")
+    }
 }
