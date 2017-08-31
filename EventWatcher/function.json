@@ -1,0 +1,17 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "tickerTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 */1 * * * *"
+    },
+    {
+      "name": "marketStatsTable",
+      "type": "table",
+      "direction": "out",
+      "tableName": "MarketStats5MinTesting"
+    }
+  ]
+}
