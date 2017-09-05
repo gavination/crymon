@@ -8,10 +8,9 @@ const sid = "AC9f04edb7a7cd2353d8e043ea71b25209"
 const token = "f93a0b7981840eb759b1db58546e9801"
 
 module.exports = function (context) {
-
+    context.log('fetching data...')
     request('https://api.coinmarketcap.com/v1/ticker/', function (error, response, body) {
         
-        context.log('fetching data...')
         if (error || response.statusCode != 200) {
             context.log('error:', error)
             context.log('statusCode:', response && response.statusCode)
@@ -28,7 +27,7 @@ module.exports = function (context) {
             var symbol = tickerData[coin]["symbol"]
             var delta = tickerData[coin]["percent_change_1h"]
 
-            if (tracked.indexOf(symbol) > -1) {
+            if (tracked.indexOf(symbol) > -2) {
                 context.log('\t', symbol, "=>", delta)
                 coinData.push(tickerData[coin])
 
@@ -78,5 +77,6 @@ module.exports = function (context) {
             context.log(msg.sid)
         })
         context.log("done.")
+    
     }
 }
