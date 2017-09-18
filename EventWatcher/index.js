@@ -10,14 +10,14 @@ const token = "f93a0b7981840eb759b1db58546e9801"
 module.exports = function (context) {
     context.log('fetching data...')
     request('https://api.coinmarketcap.com/v1/ticker/', function (error, response, body) {
-        
+
         if (error || response.statusCode != 200) {
             context.log('error:', error)
             context.log('statusCode:', response && response.statusCode)
         } else {
             context.log('success.')
         }
-        
+
         var tickerData = JSON.parse(body)
         var coinData = []
         var notif = []
@@ -31,7 +31,7 @@ module.exports = function (context) {
                 context.log('\t', symbol, "=>", delta)
                 coinData.push(tickerData[coin])
 
-                if (Math.abs(delta) > 2) {
+                if (Math.abs(delta) > 10) {
                     notif.push({symbol: symbol, delta: delta})
                 }
             }
@@ -44,7 +44,7 @@ module.exports = function (context) {
         } else {
             context.log("no texts to send.")
         }
-        
+
         context.log('indexing data...')
         context.bindings.marketStatsTable = []
         context.bindings.marketStatsTable.push({

@@ -18,9 +18,10 @@ module.exports = function (context, myTimer) {
 
         var tickerData = JSON.parse(body)
         var coins = []
+        var message = ""
 
-        context.log(tickerData[0]["symbol"], tickerData[0]["percent_change_24h"])
-        context.log(tickerData[1]["symbol"], tickerData[1]["percent_change_24h"])
+        var btc = tickerData[0]["symbol"] + " " + tickerData[0]["percent_change_24h"]
+        var eth = tickerData[1]["symbol"] + " " + tickerData[1]["percent_change_24h"]
 
         for (var coin in tickerData) {
             coins.push(
@@ -36,9 +37,26 @@ module.exports = function (context, myTimer) {
             return a < b ? -1 : (a > b ? 1 : 0);
         })
         
-        context.log(coins[0],coins[1],coins[2])
-        context.log(coins[coins.length-1], coins[coins.length-2], coins[coins.length-3])
+        topUp = coins.slice(0,3)
+        topDown = coins.slice(coins.length - 3).reverse()
 
+        context.log(getMessage(btc, eth, topUp, topDown))
         context.done()
     })
+}
+
+function getMessage(btc, eth, topUp, topDown) {
+    return "Good morning!\n"
+        + btc + "\n"
+        + eth + "\n"
+        + "\n"
+        + "Biggest Gains:\n"
+        + topUp[0][0] + " " + topUp[0][1] + "\n"
+        + topUp[1][0] + " " + topUp[1][1] + "\n"
+        + topUp[2][0] + " " + topUp[2][1] + "\n"
+        + "\n"
+        + "Biggest Losses:\n"
+        + topDown[0][0] + " " + topDown[0][1] + "\n"
+        + topDown[1][0] + " " + topDown[1][1] + "\n"
+        + topDown[2][0] + " " + topDown[2][1] + "\n"
 }
