@@ -40,11 +40,12 @@ module.exports = function (context) {
 
         if (notif.length > 0) {
             context.log("sending texts...")
-            ping(notif)
+            // ping(notif)
         } else {
             context.log("no texts to send.")
         }
 
+        /*  Azure Table Storage Indexing
         context.log('indexing data...')
         context.bindings.marketStatsTable = []
         context.bindings.marketStatsTable.push({
@@ -53,7 +54,7 @@ module.exports = function (context) {
             Data: coinData
         })
         context.log('success.')
-
+        */
         context.log('done.')
         context.done()
 
