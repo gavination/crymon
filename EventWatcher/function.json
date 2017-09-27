@@ -7,7 +7,17 @@
       "direction": "in",
       "schedule": "0 */1 * * * *"
       //"schedule": "0 */5 * * * *"
-    }/*,
+    },
+    {
+      "type": "documentDB",
+      "name": "marketStatsDocument",
+      "databaseName": "cryptocosmos",
+      "collectionName": "MarketStateCollection",
+      "createIfNotExists": true,
+      "connection": "cryptocosmos_DOCUMENTDB",
+      "direction": "out"
+    }
+    /*,
     {
       "name": "marketStatsTable",
       "type": "table",

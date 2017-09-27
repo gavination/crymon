@@ -1,19 +1,19 @@
-const request = require('request')
+const request = require("request")
 
 // currencies to watch
-tracked = ['BTC', 'ETH', 'GNT', 'REP']
+tracked = ['BTC', 'ETH', 'GNT', 'REP', 'OMG']
 
 // twilio
 const sid = "AC9f04edb7a7cd2353d8e043ea71b25209"
 const token = "f93a0b7981840eb759b1db58546e9801"
 
 module.exports = function (context) {
-    context.log('fetching data...')
-    request('https://api.coinmarketcap.com/v1/ticker/', function (error, response, body) {
+    context.log("fetching data...")
+    request("https://api.coinmarketcap.com/v1/ticker/", function (error, response, body) {
 
         if (error || response.statusCode != 200) {
-            context.log('error:', error)
-            context.log('statusCode:', response && response.statusCode)
+            context.log("error:", error)
+            context.log("statusCode:", response && response.statusCode)
         } else {
             context.log('success.')
         }
@@ -22,12 +22,12 @@ module.exports = function (context) {
         var coinData = []
         var notif = []
 
-        context.log('parsing JSON...')
+        context.log("parsing JSON...")
         for (var coin in tickerData) {
             var symbol = tickerData[coin]["symbol"]
             var delta = tickerData[coin]["percent_change_1h"]
 
-            if (tracked.indexOf(symbol) > -2) {
+            if (tracked.indexOf(symbol) > -1) {
                 context.log('\t', symbol, "=>", delta)
                 coinData.push(tickerData[coin])
 
@@ -36,7 +36,7 @@ module.exports = function (context) {
                 }
             }
         }
-        context.log('success.')
+        context.log("success.")
 
         if (notif.length > 0) {
             context.log("sending texts...")
@@ -44,6 +44,13 @@ module.exports = function (context) {
         } else {
             context.log("no texts to send.")
         }
+
+        /*  CosmosDB Storage Indexing   */
+        context.log("indexing data...")
+        context.bindings.marketStatsDocument = JSON.stringify({
+            id: new Date().getTime(),
+            Data: coinData
+        })
 
         /*  Azure Table Storage Indexing
         context.log('indexing data...')
@@ -55,19 +62,19 @@ module.exports = function (context) {
         })
         context.log('success.')
         */
-        context.log('done.')
+        context.log("done.")
         context.done()
 
     })
 
     function ping(notif) {
-        const client = require('twilio')(sid, token)
+        const client = require("twilio")(sid, token)
         
         var message = "Breaking news!\n"
         for (var coin in notif) {
             message += notif[coin].symbol
             message += " "
-            message += notif[coin].delta + "\n"
+            message += notif[coin].delta + '\n'
         }
 
         client.messages.create({
