@@ -45,19 +45,13 @@ module.exports = function (context) {
             context.log("no texts to send.")
         }
 
-        /*  CosmosDB Storage Indexing   */
+        /*  CosmosDB Storage Indexing   
         context.log("indexing data...")
         context.bindings.marketStatsDocument = "this_should_fail"
-        
-        /*JSON.stringify({
-            id: "123-employee",
-            name: "John",
-            employeeId: "123",
-            address: "123 Street St"
-        })*/
         context.log("success.")
-
-        /*  Azure Table Storage Indexing
+        */
+        
+        /*  Azure Table Storage Indexing   */
         context.log('indexing data...')
         context.bindings.marketStatsTable = []
         context.bindings.marketStatsTable.push({
@@ -66,7 +60,7 @@ module.exports = function (context) {
             Data: coinData
         })
         context.log('success.')
-        */
+        
         context.log("done.")
         context.done()
 
