@@ -47,12 +47,14 @@ module.exports = function (context) {
 
         /*  CosmosDB Storage Indexing   */
         context.log("indexing data...")
-        context.bindings.marketStatsDocument = JSON.stringify({
+        context.bindings.marketStatsDocument = "this_should_fail"
+        
+        /*JSON.stringify({
             id: "123-employee",
             name: "John",
             employeeId: "123",
             address: "123 Street St"
-        })
+        })*/
         context.log("success.")
 
         /*  Azure Table Storage Indexing
