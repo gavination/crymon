@@ -12,7 +12,7 @@
       "type": "documentDB",
       "name": "marketStatsDocument",
       "databaseName": "cryptocosmos",
-      "collectionName": "MarketStateCollection",
+      "collectionName": "MarketStatsCollection",
       "createIfNotExists": true,
       "connection": "cryptocosmos_DOCUMENTDB",
       "direction": "out"
