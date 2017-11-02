@@ -31,19 +31,25 @@ module.exports = function (context) {
                 context.log('\t', symbol, "=>", delta)
                 coinData.push(tickerData[coin])
 
-                if (Math.abs(delta) > 10) {
-                    notif.push({symbol: symbol, delta: delta})
-                }
+                notif.push({symbol: symbol, delta: delta})  // DEMO                
+                                                            // DEMO
+                // if (Math.abs(delta) > 10) {                      // DEMO
+                //     notif.push({symbol: symbol, delta: delta})   // DEMO
+                // }                                                // DEMO
             }
         }
         context.log("success.")
 
-        if (notif.length > 0) {
-            context.log("sending texts...")
-            // ping(notif)
-        } else {
-            context.log("no texts to send.")
-        }
+        context.log("sending texts...")
+        ping(notif)
+        context.log("done.")
+
+        // if (notif.length > 0) {                  // DEMO
+        //     context.log("sending texts...")      // DEMO
+        //     ping(notif)                          // DEMO
+        // } else {                                 // DEMO
+        //     context.log("no texts to send.")     // DEMO
+        // }
 
         /*  CosmosDB Storage Indexing   
         context.log("indexing data...")
@@ -52,14 +58,14 @@ module.exports = function (context) {
         */
         
         /*  Azure Table Storage Indexing   */
-        context.log('indexing data...')
-        context.bindings.marketStatsTable = []
-        context.bindings.marketStatsTable.push({
-            PartitionKey:"MarketData1",
-            RowKey: new Date().getTime(),
-            Data: coinData
-        })
-        context.log('success.')
+        // context.log('indexing data...')              // DEMO
+        // context.bindings.marketStatsTable = []       // DEMO
+        // context.bindings.marketStatsTable.push({     // DEMO
+        //     PartitionKey:"MarketData1",              // DEMO
+        //     RowKey: new Date().getTime(),            // DEMO
+        //     Data: coinData                           // DEMO
+        // })
+        // context.log('success.')                      // DEMO
         
         context.log("done.")
         context.done()
@@ -82,8 +88,6 @@ module.exports = function (context) {
             body: message
         }, function(err, msg) {
             context.log(msg.sid)
-        })
-        context.log("done.")
-    
+        })    
     }
 }
